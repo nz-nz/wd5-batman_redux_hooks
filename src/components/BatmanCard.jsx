@@ -14,7 +14,7 @@ import {
     Row
 } from "reactstrap";
 
-export const MyComponent = props => {
+export const BatmanCard = props => {
 
     const {
         image,
@@ -45,7 +45,7 @@ export const MyComponent = props => {
     );
 };
 
-MyComponent.propTypes = {
+BatmanCard.propTypes = {
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     summary: PropTypes.string.isRequired,
@@ -53,7 +53,7 @@ MyComponent.propTypes = {
     url: PropTypes.string.isRequired,
 };
 
-MyComponent.defaultProps ={
+BatmanCard.defaultProps ={
     image: '',
     name: '',
     summary: '',

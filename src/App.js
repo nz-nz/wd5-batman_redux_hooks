@@ -4,15 +4,8 @@ import {
     Container,
     Row,
     Col,
-    Card,
-    CardImg,
-    CardText,
-    CardBody,
-    CardTitle,
-    CardSubtitle,
-    Button,
-    CardLink,
 } from 'reactstrap';
+import { BatmanCard } from './components/BatmanCard'
 
 class App extends React.Component {
 
@@ -69,23 +62,14 @@ class App extends React.Component {
                             show,
                                              }) =>{
                                 return (
-                                        <Card key={ show.id } className="card_div">
-                                            <CardImg top width="100%" src={ show.image.medium } alt="Card image cap" />
-                                            <CardBody>
-                                                <CardTitle><h3>{ show.name }</h3></CardTitle>
-                                                <CardText>{  show.summary  }</CardText>
-                                                <CardSubtitle>{ show.premiered }</CardSubtitle>
-                                                <CardLink href={ show.url }>Card Link</CardLink>
-                                            </CardBody>
-                                            <CardBody>
-                                                <Container>
-                                                    <Row>
-                                                        <Col><Button>Button1</Button></Col>
-                                                        <Col><Button>Детали</Button></Col>
-                                                    </Row>
-                                                </Container>
-                                            </CardBody>
-                                        </Card>
+                                        <BatmanCard
+                                            key = { show.id }
+                                            image = { show.image.medium }
+                                            name = { show.name }
+                                            summary={ show.summary }
+                                            premiered={ show.premiered }
+                                            url={ show.url }
+                                        />
                                 );
                             }
                         )
