@@ -1,4 +1,25 @@
-.App {
+.root_card {
+  margin: auto;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card_div {
+  width: 30%;
+  margin-top: 15px;
+}
+
+@media screen
+and (max-width: 720px) {
+  .card_div {
+    width: 100%;
+  }
+}
+
+
+  .App {
   text-align: center;
 }
 
