@@ -34,7 +34,7 @@ class App extends React.Component {
                 console.log(data.map(item=>item.show))
                 this.setState({
                     list: data.map(item=>item.show) || [],
-                    watched: data.map(item=>{
+                    watched: localStorage.watched ? JSON.parse(localStorage.watched) : data.map(item=>{
                         return {
                             info: {
                                 id: item.show.id,
@@ -66,6 +66,9 @@ class App extends React.Component {
             return item
         });
         console.log(newWatchedArray);
+
+        localStorage.setItem("watched", JSON.stringify(newWatchedArray));
+
         this.setState({
             watched: newWatchedArray,
         });
