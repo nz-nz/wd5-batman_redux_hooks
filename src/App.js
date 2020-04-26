@@ -6,6 +6,7 @@ import {
     Col,
 } from 'reactstrap';
 import { BatmanCard } from './components/BatmanCard'
+import Err from "./components/Err";
 
 class App extends React.Component {
 
@@ -77,6 +78,11 @@ class App extends React.Component {
 
     render() {
         console.log('main rnd');
+
+        if (this.state.errState !== null) {
+            return <Err />
+        }
+
         return (
             <>
                 <Container>

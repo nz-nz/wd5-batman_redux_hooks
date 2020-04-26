@@ -1,9 +1,9 @@
 import React from 'react';
-import Alert from "reactstrap/es/Alert";
+import { Alert } from "reactstrap";
 
 function Err(props) {
     return (
-        <div style={ { display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={ { height: "300px", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Alert color="danger">
                 Внимание! Возникла ошибка при запросе данных!
             </Alert>
