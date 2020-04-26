@@ -30,18 +30,53 @@ class App extends React.Component {
             .then((data) => {
 
                 console.log(data);
+                console.log(data.map(item=>item.show))
                 this.setState({
-                    list: data || [],
+                    list: data.map(item=>item.show) || [],
+                    watched: data.map(item=>{
+                        return {
+                            info: {
+                                id: item.show.id,
+                                watched: false,
+                            },
+                        };
+                    }) || [],
                 })
             })
             .catch((e) => {
-                console.log("REQUEST ERROR: ", e)
+                console.log("REQUEST ERROR: ", e);
+                this.setState({ errState: e });
             });
 
     }
 
-    render() {
+    onChange = (id) => {
+        console.log(id);
+        const newWatchedArray = this.state.watched.map((item) => {
+            if (item.info.id === id) {
+                console.log('found')
+                return {
+                    info: {
+                        id: id,
+                        watched: !item.info.watched,
+                    }
+                };
+            }
+            return item
+        });
+        console.log(newWatchedArray);
+        this.setState({
+            watched: newWatchedArray,
+        });
 
+    }
+
+    onViewMore = () => {
+        console.log('clicked details');
+    }
+
+    render() {
+        console.log('main rnd');
         return (
             <>
                 <Container>
@@ -59,16 +94,26 @@ class App extends React.Component {
                 <div className="root_card">
                     {
                         this.state.list.map(({
-                            show,
-                                             }) =>{
+                            id,
+                            image,
+                            name,
+                            summary,
+                            premiered,
+                            url,
+                                             }, i) =>{
                                 return (
                                         <BatmanCard
-                                            key = { show.id }
-                                            image = { show.image.medium }
-                                            name = { show.name }
-                                            summary={ show.summary }
-                                            premiered={ show.premiered }
-                                            url={ show.url }
+                                            key = { id }
+                                            id = { id }
+                                            image = { image.medium }
+                                            name = { name }
+                                            summary = { summary }
+                                            premiered = { premiered }
+                                            url = { url }
+                                            onChange = { this.onChange }
+                                            onViewMore = { this.onViewMore }
+                                            watched = { this.state.watched[i]["info"]["watched"] }
+
                                         />
                                 );
                             }

@@ -10,13 +10,13 @@ import {
     CardText,
     CardTitle,
     Col,
-    Container,
-    Row
+    Row,
 } from "reactstrap";
 
 export const BatmanCard = props => {
 
     const {
+        id,
         image,
         name,
         summary,
@@ -24,22 +24,43 @@ export const BatmanCard = props => {
         url,
     } = props;
 
+    // const watched = false;
+
+
+
     return (
         <Card className="card_div">
             <CardImg top width="100%" src={ image } alt="Card image cap" />
             <CardBody>
-                <CardTitle><h3>{ name }</h3></CardTitle>
-                <CardText>{  summary  }</CardText>
-                <CardSubtitle>{ premiered }</CardSubtitle>
-                <CardLink href={ url }>Card Link</CardLink>
-            </CardBody>
-            <CardBody>
-                <Container>
+                <CardTitle>{ name }</CardTitle>
+                <CardText>
+                    <small className="text-muted" dangerouslySetInnerHTML={ { __html: summary } } />
+                </CardText>
+                <CardSubtitle>
+                    <small className="text-muted"> { premiered }</small> <br />
+                    <small><CardLink href={ url }>Visit movie page</CardLink></small>
+                </CardSubtitle>
+                    <br />
                     <Row>
-                        <Col><Button>Button1</Button></Col>
-                        <Col><Button>Детали</Button></Col>
+                        <Col>
+                            <Button
+                                size="sm"
+                                onClick={ () => { props.onChange(id) } }
+                                color = { props.watched ? "success" : "outline-secondary" }
+                            >
+                                { props.watched ? "Смотрел" : "Не смотрел"}
+                            </Button>
+                        </Col>
+                        <Col>
+                            <Button
+                                color="info"
+                                size="sm"
+                                onClick={ () => { props.onViewMore(id) } }
+                            >
+                                Детали
+                            </Button>
+                        </Col>
                     </Row>
-                </Container>
             </CardBody>
         </Card>
     );
