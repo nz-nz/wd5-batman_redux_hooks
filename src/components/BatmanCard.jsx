@@ -72,6 +72,9 @@ BatmanCard.propTypes = {
     summary: PropTypes.string.isRequired,
     premiered: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onViewMore: PropTypes.func.isRequired,
+    watched: PropTypes.bool.isRequired,
 };
 
 BatmanCard.defaultProps ={

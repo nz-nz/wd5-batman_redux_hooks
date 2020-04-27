@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert } from "reactstrap";
 
-function Err(props) {
+function Err() {
     return (
         <div style={ { height: "300px", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <Alert color="danger">
