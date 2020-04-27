@@ -67,6 +67,7 @@ export const BatmanCard = props => {
 };
 
 BatmanCard.propTypes = {
+    id: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     summary: PropTypes.string.isRequired,
