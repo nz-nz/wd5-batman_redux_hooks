@@ -1,11 +1,13 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './App.css';
 import {
     Container,
     Row,
     Col,
 } from 'reactstrap';
-import { BatmanCard } from './components/BatmanCard'
+import * as ActionCreators from './store/action_creatores';
+import { BatmanCard } from './components/BatmanCard';
 import Err from "./components/Err";
 
 class App extends React.Component {
@@ -14,7 +16,7 @@ class App extends React.Component {
         super(props);
 
         this.state = {
-            list: [], // список комиксов
+            moviesList: [], // список комиксов
             watched: [], // список смотрел / не смотрел
             errState: null, // состояние запроса - есть ошибка / всё ок
         }
@@ -33,7 +35,7 @@ class App extends React.Component {
                 console.log(data);
                 console.log(data.map(item=>item.show))
                 this.setState({
-                    list: data.map(item=>item.show) || [],
+                    moviesList: data.map(item=>item.show) || [],
                     watched: localStorage.watched ? JSON.parse(localStorage.watched) : data.map(item=>{
                         return {
                             info: {
@@ -95,14 +97,14 @@ class App extends React.Component {
                     {/*<Row>*/}
                     {/*    <Col>*/}
                     {/*        {*/}
-                    {/*            JSON.stringify(this.state.list)*/}
+                    {/*            JSON.stringify(this.state.moviesList)*/}
                     {/*        }*/}
                     {/*    </Col>*/}
                     {/*</Row>*/}
 
                 <div className="root_card">
                     {
-                        this.state.list.map(({
+                        this.state.moviesList.map(({
                             id,
                             image,
                             name,
@@ -122,7 +124,6 @@ class App extends React.Component {
                                             onChange = { this.onChange }
                                             onViewMore = { this.onViewMore }
                                             watched = { this.state.watched[i]["info"]["watched"] }
-
                                         />
                                 );
                             }
@@ -135,4 +136,20 @@ class App extends React.Component {
     }
 }
 
-export default App;
+const mapStateToProps = (store) => {
+    return {
+        moviesList: store.app.movies || [],
+        watched: store.app.watched || [],
+        errState: store.app.errState || [],
+    }
+}
+
+const mapDispatchToProps = (dispatcher) => {
+    return {
+        // updateMovies: (payload) => dispatcher(ActionCreators.updateMovies(payload)),
+        getMovies: (payload) => dispatcher(ActionCreators.getMovies(payload)),
+    }
+};
+
+const connected = connect(mapStateToProps, mapDispatchToProps)(App);
+export default connected;
