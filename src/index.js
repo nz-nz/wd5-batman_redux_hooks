@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import './index.css';
+import { ConnectedRouter } from "connected-react-router";
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-
 import configureStore, { history } from "./store/configure_store";
+import routs from './router/router'
+import Spinner from "./components/Spinner";
 
+import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const store = configureStore();
 
 ReactDOM.render(
     <Provider store = { store }>
-        <App />
+        <ConnectedRouter history={ history }>
+            <App>
+                <Suspense fallback={ <Spinner /> }>
+                    {
+                        routs
+                    }
+                </Suspense>
+            </App>
+        </ConnectedRouter>
     </Provider>,
   document.getElementById('root')
 );

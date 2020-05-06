@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from "react-router-dom";
 import {
     Button,
     Card,
@@ -12,8 +13,9 @@ import {
     Col,
     Row,
 } from "reactstrap";
+import * as URL from '../router/url'
 
-export const BatmanCard = props => {
+export const MovieCard = props => {
 
     const {
         id,
@@ -52,13 +54,12 @@ export const BatmanCard = props => {
                             </Button>
                         </Col>
                         <Col>
-                            <Button
-                                color="info"
-                                size="sm"
-                                onClick={ () => { props.onViewMore(id) } }
+                            <Link
+                                to={ `${ URL.DETAILS }/${ id }`}
+                                className="btn btn-info btn-sm"
                             >
-                                Детали
-                            </Button>
+                                Детали через Link
+                            </Link>
                         </Col>
                     </Row>
             </CardBody>
@@ -66,19 +67,19 @@ export const BatmanCard = props => {
     );
 };
 
-BatmanCard.propTypes = {
-    id: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    summary: PropTypes.string.isRequired,
-    premiered: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
+MovieCard.propTypes = {
+    id: PropTypes.number,
+    image: PropTypes.string,
+    name: PropTypes.string,
+    summary: PropTypes.string,
+    premiered: PropTypes.string,
+    url: PropTypes.string,
     onChange: PropTypes.func,
     onViewMore: PropTypes.func,
     watched: PropTypes.bool,
 };
 
-BatmanCard.defaultProps ={
+MovieCard.defaultProps ={
     image: '',
     name: '',
     summary: '',
