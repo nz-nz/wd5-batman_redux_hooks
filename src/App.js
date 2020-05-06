@@ -1,4 +1,5 @@
 import React from 'react';
+import * as PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import './App.css';
 import {
@@ -12,45 +13,44 @@ import Err from "./components/Err";
 
 class App extends React.Component {
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            moviesList: [], // список комиксов
-            watched: [], // список смотрел / не смотрел
-            errState: null, // состояние запроса - есть ошибка / всё ок
-        }
+    static propTypes = {
+        moviesList: PropTypes.array.isRequired,
+        getMovies: PropTypes.func.isRequired,
+        errState: PropTypes.bool,
     }
 
     componentDidMount() {
+        this.props.getMovies('batman');
+    }
 
-        const movies = fetch('http://api.tvmaze.com/search/shows?q=batman');
+    renderCard = () => {
 
-        movies
-            .then((data) => {
-                return data.json()
-            })
-            .then((data) => {
+        const { moviesList } = this.props;
 
-                console.log(data);
-                console.log(data.map(item=>item.show))
-                this.setState({
-                    moviesList: data.map(item=>item.show) || [],
-                    watched: localStorage.watched ? JSON.parse(localStorage.watched) : data.map(item=>{
-                        return {
-                            info: {
-                                id: item.show.id,
-                                watched: false,
-                            },
-                        };
-                    }) || [],
-                })
-            })
-            .catch((e) => {
-                console.log("REQUEST ERROR: ", e);
-                this.setState({ errState: e });
-            });
+        if (moviesList.length === 0) {
+            return null;
+        }
 
+        return moviesList.map((item) =>{
+
+            const {
+                id,
+                name = "",
+                url = "",
+                image = {},
+                summary,
+                premiered,
+            } = item.show || {};
+
+            return <BatmanCard
+                id = { id }
+                name = { name }
+                url = { url }
+                image = { image.medium }
+                summary = { summary }
+                premiered = { premiered }
+            />
+        });
     }
 
     onChange = (id) => {
@@ -84,7 +84,7 @@ class App extends React.Component {
     render() {
         console.log('main rnd');
 
-        if (this.state.errState !== null) {
+        if (this.props.errState !== null) {
             return <Err />
         }
 
@@ -94,42 +94,11 @@ class App extends React.Component {
                     <Row>
                         <Col><h1>Batman Movies</h1></Col>
                     </Row>
-                    {/*<Row>*/}
-                    {/*    <Col>*/}
-                    {/*        {*/}
-                    {/*            JSON.stringify(this.state.moviesList)*/}
-                    {/*        }*/}
-                    {/*    </Col>*/}
-                    {/*</Row>*/}
-
-                <div className="root_card">
-                    {
-                        this.state.moviesList.map(({
-                            id,
-                            image,
-                            name,
-                            summary,
-                            premiered,
-                            url,
-                                             }, i) =>{
-                                return (
-                                        <BatmanCard
-                                            key = { id }
-                                            id = { id }
-                                            image = { image.medium }
-                                            name = { name }
-                                            summary = { summary }
-                                            premiered = { premiered }
-                                            url = { url }
-                                            onChange = { this.onChange }
-                                            onViewMore = { this.onViewMore }
-                                            watched = { this.state.watched[i]["info"]["watched"] }
-                                        />
-                                );
-                            }
-                        )
-                    }
-                </div>
+                    <div className="root_card">
+                        {
+                            this.renderCard()
+                        }
+                    </div>
                 </Container>
             </>
         )
@@ -140,13 +109,13 @@ const mapStateToProps = (store) => {
     return {
         moviesList: store.app.movies || [],
         watched: store.app.watched || [],
-        errState: store.app.errState || [],
+        errState: store.app.errState,
     }
 }
 
 const mapDispatchToProps = (dispatcher) => {
     return {
-        // updateMovies: (payload) => dispatcher(ActionCreators.updateMovies(payload)),
+        // вызывает внутри себя в action_creatores - updateMovies: (payload) => dispatcher(ActionCreators.updateMovies(payload)),
         getMovies: (payload) => dispatcher(ActionCreators.getMovies(payload)),
     }
 };

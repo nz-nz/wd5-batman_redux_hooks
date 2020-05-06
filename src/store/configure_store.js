@@ -12,7 +12,6 @@ import createRootReducer from './reducer';
 export const history = createBrowserHistory();
 
 export default function configureStore(preloadedState) {
-
     const store = createStore(
         createRootReducer(history),
         preloadedState,
@@ -25,6 +24,5 @@ export default function configureStore(preloadedState) {
             window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
         ),
     );
-
-    return store;
-}
+    return store
+};
